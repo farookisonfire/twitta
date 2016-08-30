@@ -1,6 +1,6 @@
 var tweets = JSON.parse(data);
 var theTweets = document.getElementById('tweets');
-
+var following =[]
 for ( var i = 0 ; i < tweets.length ; i++) {
 
 	var tweetDiv = document.createElement('div');
@@ -68,7 +68,7 @@ document.body.addEventListener('click', function(event){
 		var name = event.target.getAttribute('name');
 		var id = event.target.getAttribute('id');
 		if (typeof following === 'undefined') {
-		  following = [];
+		  // following = [];
 			following.push([name, id]);
 			console.log(following);
 		} // end of if conditional
@@ -113,8 +113,63 @@ function listFollower(array) {
 	}
 }
 
+// clear all child elements
 function clear(target){
 	while(target.firstChild) {
 		target.removeChild(target.firstChild)
 	}
 }
+
+// DISPLAY ONLY YOUR FOLLOWERS' TWEETS
+
+var home = document.getElementById('home');
+var followTweets = document.getElementById('follow-tweets')
+home.addEventListener('click', function(){
+	clear(followTweets);
+	theTweets.classList.remove('live')
+	theTweets.classList.add('hide');
+	followTweets.classList.remove('hide');
+	followTweets.classList.add('live')
+
+	for (var i = 0 ; i < tweets.length ; i++) {
+		for (var y = 0 ; y < following.length ; y++) {
+			if(tweets[i].id == following[y][1]) {
+				var followTweetDiv = document.createElement('div');
+				var followPicDiv = document.createElement('div');
+				var followSpanDiv = document.createElement('div');
+				var followContent = document.createElement('div');
+
+				var followPicture = document.createElement('img');
+				var followNameSpan = document.createElement('span');
+				var followUserNameSpan = document.createElement('span');
+				var followDateSpan = document.createElement('span');
+
+				followPicture.src = tweets[i].pic;
+				followPicDiv.appendChild(followPicture);
+				followNameSpan.textContent = tweets[i].name;
+				followUserNameSpan.textContent = tweets[i].username;
+				followDateSpan.textContent = tweets[i].date;
+				followSpanDiv.appendChild(followNameSpan);
+				followSpanDiv.appendChild(followUserNameSpan);
+				followSpanDiv.appendChild(followDateSpan);
+				followContent.textContent = tweets[i].content;
+
+				followTweetDiv.appendChild(followPicDiv);
+				followTweetDiv.appendChild(followSpanDiv);
+				followTweetDiv.appendChild(followContent);
+
+				followTweets.appendChild(followTweetDiv);
+			}
+
+		} // end of inner for loop
+	} // end of outer for loop
+
+}) // end of event listener
+
+var bird = document.getElementById('logo');
+bird.addEventListener('click', function(){
+	theTweets.classList.remove('hide')
+	theTweets.classList.add('live');
+	followTweets.classList.remove('live');
+	followTweets.classList.add('hide')
+})
