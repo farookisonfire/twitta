@@ -12,7 +12,7 @@ for ( var i = 0 ; i < tweets.length ; i++) {
   var dateSpan = document.createElement('span');
   var contentDiv = document.createElement('div');
 	var button = document.createElement('button');
-	var following = [];
+	// var following = [];
 
   tweetDiv.id = 'tweet-div';
   picDiv.id = 'pic-div';
@@ -62,13 +62,59 @@ for ( var i = 0 ; i < tweets.length ; i++) {
 }
 
 document.body.addEventListener('click', function(event){
+	clear(followers);
+
 	if(event.target.className.indexOf('follow') !== -1) {
 		var name = event.target.getAttribute('name');
 		var id = event.target.getAttribute('id');
-		for (i = 0 ; i < following.length ; i++) {
-			if (following[i].indexOf(id) === -1){
+		if (typeof following === 'undefined') {
+		  following = [];
+			following.push([name, id]);
+			console.log(following);
+		} // end of if conditional
+		else if (check(following, id) === 0){
 				following.push([name,id])
-				console.log('following');
-	}}}
+				console.log(following);
+			} // end of else if conditional
+	} // end of first if conditional
 
-});
+	listFollower(following);
+}); // end of event listener
+
+
+// check the "following" array to see if you have already followed the user
+function check(array, test) {
+	var match = 0
+	for (i = 0; i < array.length ; i++) {
+		if (array[i].indexOf(test) !== -1) {
+			match += 1;
+			console.log('the substring ' + test + ' was found ' + match + ' times')
+			return match;
+		}
+	}
+	return(match)
+}
+
+// list everyone that you are following
+function listFollower(array) {
+	var followers = document.getElementById('followers')
+	// var followingDiv = document.getElementById('following-div')
+	var followingDiv = document.createElement('div');
+	followingDiv.textContent = 'Following:';
+	followingDiv.classList.add('panel-heading');
+	followers.appendChild(followingDiv);
+
+	for (var i = 0 ; i < array.length ; i++) {
+		var follower = array[i][0];
+		var followerP = document.createElement('p');
+		followerP.textContent = follower;
+		followerP.classList.add('panel-body');
+		followers.appendChild(followerP);
+	}
+}
+
+function clear(target){
+	while(target.firstChild) {
+		target.removeChild(target.firstChild)
+	}
+}
