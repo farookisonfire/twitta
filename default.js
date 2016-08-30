@@ -40,12 +40,13 @@ for ( var i = 0 ; i < tweets.length ; i++) {
   contentDiv.classList.add('col-md-10');
   tweetDiv.classList.add('col-md-12');
 	button.classList.add('btn');
+	button.classList.add('button');
 	button.classList.add('follow');
 	button.setAttribute('name', tweets[i].name);
 	button.setAttribute('id', tweets[i].id);
 
 	tweetDiv.classList.add('panel');
-  // tweetDiv.classList.add('panel-default');
+  tweetDiv.classList.add('panel-default');
 
   picDiv.appendChild(picture);
   spanDiv.appendChild(nameSpan);
@@ -60,14 +61,14 @@ for ( var i = 0 ; i < tweets.length ; i++) {
   theTweets.appendChild(tweetDiv);
 }
 
-// document.body.addEventListener('click', function(event){
-// 	if(event.target.className.indexOf('follow') !== -1) {
-// 		var name = event.target.getAttribute('name');
-// 		var id = event.target.getAttribute('id');
-// 		for (i = 0 ; i < following.length ; i++) {
-// 			if (following[i].indexOf(id) === -1){
-// 				following.push([name,id])
-// 				console.log('following');
-// 	}}}
-//
-// });
+document.body.addEventListener('click', function(event){
+	if(event.target.className.indexOf('follow') !== -1) {
+		var name = event.target.getAttribute('name');
+		var id = event.target.getAttribute('id');
+		for (i = 0 ; i < following.length ; i++) {
+			if (following[i].indexOf(id) === -1){
+				following.push([name,id])
+				console.log('following');
+	}}}
+
+});
