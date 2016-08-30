@@ -1,7 +1,11 @@
-#topbar{
+#topbar {
   border-bottom: 1px solid black;
-};
+}
 
 .content {
   display: inline-block;
+}
+
+.button {
+  margin-bottom: 15px;
 }
