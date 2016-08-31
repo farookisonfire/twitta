@@ -2,6 +2,8 @@ var tweets = JSON.parse(data);
 var theTweets = document.getElementById('tweets');
 var following =[]
 for ( var i = 0 ; i < tweets.length ; i++) {
+var profileCard = document.getElementById('profile-card')
+
 
 	var tweetDiv = document.createElement('div');
   var picDiv = document.createElement('div');
@@ -34,7 +36,8 @@ for ( var i = 0 ; i < tweets.length ; i++) {
   // nameSpan.classList.add('panel-heading');
   // usernameSpan.classList.add('panel-heading');
   // dateSpan.classList.add('panel-heading');
-  contentDiv.classList.add('panel-body');
+	picture.classList.add('wall-pic')
+	contentDiv.classList.add('panel-body');
   picDiv.classList.add('col-md-2');
   spanDiv.classList.add('col-md-10');
   contentDiv.classList.add('col-md-10');
@@ -126,6 +129,7 @@ var home = document.getElementById('home');
 var followTweets = document.getElementById('follow-tweets')
 home.addEventListener('click', function(){
 	clear(followTweets);
+	showIt(profileCard);
 	theTweets.classList.remove('live')
 	theTweets.classList.add('hide');
 	followTweets.classList.remove('hide');
@@ -145,6 +149,7 @@ home.addEventListener('click', function(){
 				var followDateSpan = document.createElement('span');
 
 				followPicture.src = tweets[i].pic;
+				followPicture.classList.add('wall-pic')
 				followPicDiv.appendChild(followPicture);
 				followNameSpan.textContent = tweets[i].name;
 				followUserNameSpan.textContent = tweets[i].username;
@@ -154,6 +159,14 @@ home.addEventListener('click', function(){
 				followSpanDiv.appendChild(followDateSpan);
 				followContent.textContent = tweets[i].content;
 
+				followTweetDiv.classList.add('col-md-12');
+				followPicDiv.classList.add('col-md-2');
+				followSpanDiv.classList.add('col-md-10');
+				followContent.classList.add('col-md-10');
+				followTweetDiv.classList.add('panel');
+				followTweetDiv.classList.add('panel-default');
+				followContent.classList.add('panel-body')
+				followTweetDiv.classList.add('follow-tweet-div');
 				followTweetDiv.appendChild(followPicDiv);
 				followTweetDiv.appendChild(followSpanDiv);
 				followTweetDiv.appendChild(followContent);
@@ -167,9 +180,19 @@ home.addEventListener('click', function(){
 }) // end of event listener
 
 var bird = document.getElementById('logo');
+
 bird.addEventListener('click', function(){
+	hideIt(profileCard);
 	theTweets.classList.remove('hide')
 	theTweets.classList.add('live');
 	followTweets.classList.remove('live');
 	followTweets.classList.add('hide')
 })
+
+function hideIt(element) {
+	element.classList.add('hide');
+}
+
+function showIt(element) {
+	element.classList.remove('hide');
+}

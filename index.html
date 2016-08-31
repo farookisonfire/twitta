@@ -32,14 +32,44 @@ Home</div>
 
 
       <div class="row">
-        <div class="col-md-3 panel-default" id="followers">
-          <div class="panel-heading" id="following-div">Following</div>
+
+        <!-- LEFT DASHBOARD -->
+        <div class = "col-md-4 panel-default" id="dashboard-left">
+          <div id="profile-card" class="hide">
+            <div id="profile-top-banner"></div>
+            <div id="profile-bottom-banner">
+              <div id="profile-name">
+                <p class ="username">username</p>
+                <p class="at-username">@username</p>
+              </div>
+              <!-- <div id="profile-picture-div"> -->
+                <img id="profile-picture" src="dummy.png">
+              <!-- </div> -->
+              <div id="profile-stats"></div>
+            </div>
+          </div>
+          <div class="panel-default" id="followers">
+            <div class="panel-heading" id="following-div">Following</div>
+          </div>
         </div>
-        <div class = "col-md-6 panel panel-default live" id="tweets">
+
+        <div id="main-dashboard" class="panel-default col-md-7">
+          <div id="your-tweet-div">
+            <img id ="your-tweet-profile-pic" src="dummy.png">
+            <input id="your-tweet" type="text" class="col-md-10">
+          </div>
+          <div class = "the-tweets panel panel-default live" id="tweets">
+          </div>
+          <div class = "panel panel-default hide" id="follow-tweets">
+          </div>
         </div>
-        <div class = "col-md-6 panel panel-default hide" id="follow-tweets">
-        </div>
+
+
+
       </div>
+
+
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="data.js"></script>
