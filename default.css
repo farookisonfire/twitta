@@ -48,6 +48,38 @@ body {
   border: 4px solid white;
 }
 
+#profile-stats {
+  position: relative;
+  top: -85px;
+}
+
+.profile-stat-list {
+  width: 55px;
+  display: inline-block;
+}
+
+.stat-title {
+  font-size: 12px;
+}
+
+.stat-count {
+  font-size: 18px;
+}
+
+#profile-stat-tweets {
+  position: relative;
+  left: -20px;
+}
+
+#profile-stat-following {
+  position: relative;
+  left: 80px;
+}
+
+#profile-stats > ul {
+  list-style: none;
+}
+
 /*************************** DASHBOARD CENTER **********************/
 
 .your-tweet-div {
@@ -74,6 +106,11 @@ body {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.now-following {
+  background-color: rgb(21,202,113);
+  color:white;
 }
 
 /************* STYLE CHANGES TO THE TWEET FIELD ON CLICK *************/
