@@ -1,10 +1,11 @@
 var tweets = JSON.parse(data);
 var theTweets = document.getElementById('tweets');
 var following =[]
-for ( var i = 0 ; i < tweets.length ; i++) {
 var profileCard = document.getElementById('profile-card')
+var yourTweet = document.getElementById('your-tweet');
+var tweetButton = document.getElementById('tweet-button');
 
-
+for ( var i = 0 ; i < tweets.length ; i++) {
 	var tweetDiv = document.createElement('div');
   var picDiv = document.createElement('div');
   var picture = document.createElement('img');
@@ -29,6 +30,12 @@ var profileCard = document.getElementById('profile-card')
   nameSpan.textContent = tweets[i].name;
 	usernameSpan.textContent = tweets[i].username;
 	dateSpan.textContent = tweets[i].date;
+
+	nameSpan.classList.add('span-name');
+	usernameSpan.classList.add('span-user-name');
+	dateSpan.classList.add('span-date');
+
+
 	contentDiv.textContent = tweets[i].content;
 	button.textContent = 'Follow ' + tweets[i].name;
 
@@ -154,6 +161,11 @@ home.addEventListener('click', function(){
 				followNameSpan.textContent = tweets[i].name;
 				followUserNameSpan.textContent = tweets[i].username;
 				followDateSpan.textContent = tweets[i].date;
+
+				followNameSpan.classList.add('span-name');
+				followUserNameSpan.classList.add('span-user-name');
+				followDateSpan.classList.add('span-date');
+
 				followSpanDiv.appendChild(followNameSpan);
 				followSpanDiv.appendChild(followUserNameSpan);
 				followSpanDiv.appendChild(followDateSpan);
@@ -195,4 +207,75 @@ function hideIt(element) {
 
 function showIt(element) {
 	element.classList.remove('hide');
+}
+
+yourTweet.addEventListener('click', function(){
+	var yourTweetDiv = document.getElementById('your-tweet-div');
+	var yourTweetProfilePic = document.getElementById('your-tweet-profile-pic');
+
+	yourTweetDiv.classList.add('your-tweet-div-expand');
+	yourTweetProfilePic.classList.add('your-tweet-profile-pic-expand');
+	yourTweet.classList.add('your-tweet-expand');
+	showIt(tweetButton);
+})
+
+tweetButton.addEventListener('click', function() {
+	var myTweet = {}
+		myTweet.id = '6954';
+		myTweet.name = 'name';
+		myTweet.username = 'username';
+		myTweet.date = Date();
+		myTweet.content = yourTweet.value;
+		myTweet.pic = 'dummy.png'
+
+	tweets.unshift(myTweet);
+	clear(theTweets);
+	for (var i = 0 ; i < tweets.length ; i++) {
+	build(tweets[i]);
+	}
+
+}); //end of event listener
+
+
+
+function build(tweet) {
+	var buildTweetDiv = document.createElement('div');
+	buildTweetDiv.classList.add('col-md-12');
+	buildTweetDiv.classList.add('panel');
+	buildTweetDiv.classList.add('panel-default');
+
+	var buildPicDiv = document.createElement('div');
+	buildPicDiv.classList.add('col-md-2');
+	var buildPicture = document.createElement('img');
+	buildPicture.src = tweet.pic;
+	buildPicture.classList = 'wall-pic';
+	buildPicDiv.appendChild(buildPicture);
+
+	var buildSpanDiv = document.createElement('div');
+	buildSpanDiv.classList.add('col-md-10');
+	var buildSpanName = document.createElement('span');
+	buildSpanName.textContent = tweet.name;
+	buildSpanName.classList.add('span-name');
+	var buildSpanUserName = document.createElement('span');
+	buildSpanUserName.textContent = tweet.username
+	buildSpanName.classList.add('span-user-name');
+	var buildSpanDate = document.createElement('span');
+	buildSpanDate.textContent = tweet.date;
+	buildSpanName.classList.add('span-date');
+	buildSpanDiv.appendChild(buildSpanName);
+	buildSpanDiv.appendChild(buildSpanUserName);
+	buildSpanDiv.appendChild(buildSpanDate);
+
+	var buildContent = document.createElement('div');
+	buildContent.classList.add('content');
+	buildContent.classList.add('panel-body');
+	buildContent.classList.add('col-md-10');
+	buildContent.textContent = tweet.content;
+
+	buildTweetDiv.appendChild(buildPicDiv);
+	buildTweetDiv.appendChild(buildSpanDiv);
+	buildTweetDiv.appendChild(buildContent);
+	buildTweetDiv.id = "tweet-div";
+
+	theTweets.appendChild(buildTweetDiv);
 }

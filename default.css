@@ -50,7 +50,15 @@ body {
 
 /*************************** DASHBOARD CENTER **********************/
 
-#your-tweet-profile-pic {
+.your-tweet-div {
+  height: 60px;
+  background-color: rgb(223,239,245);
+  margin: 0 auto;
+  padding-left: 30px;
+  border-radius: 10px 10px 0 0;
+}
+
+.your-tweet-profile-pic {
   height: 40px;
   float: left;
   position: relative;
@@ -61,21 +69,39 @@ body {
   /*display: inline-block;*/
 }
 
-#your-tweet {
+.your-tweet {
   height: 35px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  /*display: inline-block;*/
 }
 
-#your-tweet-div {
-  height: 60px;
-  background-color: rgb(223,239,245);
-  margin: 0 auto;
-  padding-left: 30px;
-  border-radius: 10px 10px 0 0;
+/************* STYLE CHANGES TO THE TWEET FIELD ON CLICK *************/
+
+.your-tweet-div-expand {
+  height: 150px;
 }
+
+.your-tweet-profile-pic-expand {
+  top: 23%;
+}
+
+.your-tweet-expand {
+  height: 85px;
+  top: 37%;
+}
+
+#tweet-button {
+  position: relative;
+  top: 15%;
+  left: 80%;
+  background-color: rgb(43,145,193);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/*********************** STYLING THE TWEETS ****************************/
 
 #tweet-div {
   padding-top: 20px;
@@ -89,4 +115,18 @@ body {
 
 .wall-pic {
   border-radius: 5px;
+  height: 60px;
+}
+
+.span-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.span-user-name {
+  opacity: .6;
+}
+
+.span-date {
+  opacity: .6;
 }

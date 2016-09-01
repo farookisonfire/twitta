@@ -10,9 +10,9 @@
     <title>Project-One</title>
   </head>
   <body>
-    <div class="container">
 
-<!-- topbar -->
+<!-- TOP BAR -->
+    <div class="container-fluid">
       <div id = "topbar" class="row col-md-12">
         <div id="navlinks" class="col-md-5">
           <div id="home" class="col-md-3"><i class="fa fa-home fa-2x" aria-hidden="true"></i>
@@ -22,15 +22,17 @@ Home</div>
           <div id="messages" class="col-md-3"></div>
         </div>
         <div id="logo" class="col-md-3"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
-</div>
+        </div>
         <div id="search">
           <!-- <input id="input" class="col-md-2"> -->
           <div id="profile-pic" class="col-md-1"></div>
           <!-- <button id="button" class="col-md-1 btn"></button> -->
         </div>
       </div>
+    </div>
+    <!-- END OF TOP BAR DIV -->
 
-
+    <div class="container">
       <div class="row">
 
         <!-- LEFT DASHBOARD -->
@@ -53,10 +55,12 @@ Home</div>
           </div>
         </div>
 
+        <!-- CENTER DASHBOARD -->
         <div id="main-dashboard" class="panel-default col-md-7">
-          <div id="your-tweet-div">
-            <img id ="your-tweet-profile-pic" src="dummy.png">
-            <input id="your-tweet" type="text" class="col-md-10">
+          <div id="your-tweet-div" class="your-tweet-div">
+            <img id ="your-tweet-profile-pic" class="your-tweet-profile-pic" src="dummy.png">
+            <input id="your-tweet" type="text" class="col-md-10 your-tweet">
+            <button class="btn hide" id="tweet-button">Tweet</button>
           </div>
           <div class = "the-tweets panel panel-default live" id="tweets">
           </div>
