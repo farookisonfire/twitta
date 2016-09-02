@@ -7,7 +7,12 @@ var tweetButton = document.getElementById('tweet-button');
 var tweetCount = 0;
 var followingCount = 0;
 var userId = '695412312234234213412312545623';
-
+var topbar = document.getElementById('topbar');
+var mainContain = document.getElementById('main-contain');
+var signIn = document.getElementById('signin');
+var vidloop = document.getElementById('vidloop');
+var myModal = document.getElementById('my-modal');
+var logIn = document.getElementById('log-in');
 
 for ( var i = 0 ; i < tweets.length ; i++) {
 	var tweetDiv = document.createElement('div');
@@ -42,7 +47,7 @@ for ( var i = 0 ; i < tweets.length ; i++) {
 
 	contentDiv.textContent = tweets[i].content;
 	button.textContent = 'Follow ' + tweets[i].name;
-
+	button.classList.add('hide');
   contentDiv.classList.add('content');
   // nameSpan.classList.add('panel-heading');
   // usernameSpan.classList.add('panel-heading');
@@ -148,6 +153,7 @@ function clear(target){
 var home = document.getElementById('home');
 var followTweets = document.getElementById('follow-tweets')
 home.addEventListener('click', function(){
+	vidloop.style.display = 'none';
 	clear(followTweets);
 	showIt(profileCard);
 	// theTweets.classList.remove('live')
@@ -395,3 +401,36 @@ clear(followTweets);
 		hideIt(followButton[i]);
 	}
 })
+
+
+// SM0OTH SCROLL
+
+var marginY = 0;
+var destination = 0;
+var speed = 5;
+var scroller = null;
+
+function initScroll(el) {
+	destination = document.getElementById(el).offsetTop;
+	scroller = setTimeout(function() {
+		initScroll(el)
+	}, 1);
+	marginY = marginY + speed;
+	if(marginY >= destination) {
+		clearTimeout(scroller);
+	}
+	window.scroll(0, marginY);
+	topbar.style.display = "block";
+	mainContain.style.visibility = 'visible';
+}
+
+signIn.addEventListener('click', function(){
+	vidloop.style.display = 'none';
+	myModal.style.display = 'block';
+})
+
+window.onclick = function(event) {
+    if (event.target == myModal) {
+        myModal.style.display = "none";
+    }
+}
