@@ -1,5 +1,6 @@
 body {
   background-color: rgb(242,246,249);
+  font-family: 'Open Sans', sans-serif
 }
 
 #topbar {
@@ -52,12 +53,28 @@ body {
   margin-bottom: 20px;
 }
 
+#slogan-div {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+}
+
+#slogan {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 60px;
+  z-index: 101;
+  color: rgba(255,255,255,.8);
+  font-weight: 200;
+}
+
 /**************************** MODAL BEGIN *************************/
 
 .modal {
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,.4);
 }
 
 .modal-content {
