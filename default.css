@@ -84,6 +84,11 @@ body {
 }
 
 #log-in {
+  margin: 20px auto 0 auto;
+  width: 175px;
+}
+
+#register {
   margin: 20px auto;
   width: 175px;
 }
@@ -92,6 +97,14 @@ body {
   margin: 5px auto;
 }
 
+.modal-footer {
+  text-align: center;
+}
+
+#reg-signup {
+  width: 125px;
+  margin-top: 15px;
+}
 
 /**************************** MODAL END *************************/
 
@@ -203,6 +216,10 @@ body {
   color:white;
 }
 
+.tweet-header {
+  padding-left: 5px;
+  parring-right: 5px;
+}
 /************* STYLE CHANGES TO THE TWEET FIELD ON CLICK *************/
 
 .your-tweet-div-expand {

@@ -13,12 +13,12 @@
 
 <!-- TOP BAR -->
     <div class="container-fluid">
-      <div id = "topbar" class="row col-md-12">
-        <div id="navlinks" class="col-md-6">
+      <div id = "topbar" class="row col-xs-12">
+        <div id="navlinks" class="col-xs-6">
           <div id="home"><a href="#"><i class="fa fa-home fa-2x"    aria-hidden="true"></i>Home</a>
         </div>
         </div>
-        <div id="logo" class="col-md-5"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+        <div id="logo" class="col-xs-5"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
         </div>
         <div id="signin"><a href="#"><i class="fa fa-globe fa-2x" aria-hidden="true"></i>
           Sign In</a></div>
@@ -45,13 +45,13 @@
       <div class="row">
 
         <!-- LEFT DASHBOARD BEGIN -->
-        <div class = "col-md-4 panel-default" id="dashboard-left">
+        <div class = "col-xs-4 panel-default" id="dashboard-left">
           <div id="profile-card">
             <div id="profile-top-banner"></div>
             <div id="profile-bottom-banner">
               <div id="profile-name">
-                <p class ="username">username</p>
-                <p class="at-username">@username</p>
+                <p id="profile-full-name" class ="username">User Name</p>
+                <p id="profile-user-name" class="at-username">@username</p>
               </div>
               <!-- <div id="profile-picture-div"> -->
                 <img id="profile-picture" src="dummy.png">
@@ -82,10 +82,10 @@
         <!-- LEFT DASHBOARD END -->
 
         <!-- CENTER DASHBOARD BEGIN -->
-        <div id="main-dashboard" class="panel-default col-md-7">
+        <div id="main-dashboard" class="panel-default col-xs-7">
           <div id="your-tweet-div" class="your-tweet-div">
             <img id ="your-tweet-profile-pic" class="your-tweet-profile-pic" src="dummy.png">
-            <input id="your-tweet" type="text" class="col-md-10 your-tweet">
+            <input id="your-tweet" type="text" class="col-xs-10 your-tweet">
             <button class="btn hide" id="tweet-button">Tweet</button>
           </div>
           <div class = "the-tweets panel panel-default live" id="tweets">
@@ -96,16 +96,38 @@
         <!-- CENTER DASHBOARD END -->
       </div>
 
-      <!-- MODAL BEGIN -->
+      <!-- SIGN IN MODAL BEGIN -->
       <div id="my-modal" class="modal">
         <div class="modal-content">
-          <input type="text" name="Username" placeholder="Username" class="login-field"><br>
-          <input type="text" name="Password" placeholder="Password" class="login-field"><br>
-          <button class="btn btn-default" id="log-in">Log In</button>
+          <input type="text" name="Username" placeholder="Username" class="login-field" id="username-input"><br>
+          <input type="password" name="Password" placeholder="Password" class="login-field" id="password-input"><br>
+          <button class="btn btn-default btn-primary" id="log-in">Log In</button>
+          <button class="btn btn-default btn-info" id="register">Register</button>
         </div>
       </div>
 
-      <!-- MODAL END -->
+      <!-- SIGN-IN MODAL END -->
+
+      <!--  REGISTER MODAL BEGIN  -->
+      <div id="reg-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Join Twitta Today</h2>
+          </div>
+          <div class="modal-body">
+            <input type="text" placeholder="Full Name" id="reg-name" class="login-field"><br>
+            <input type="text" placeholder="Username" id="reg-username" class="login-field"><br>
+            <input type="password" placeholder="Password" id="reg-pass" class="login-field"><br>
+            <button class="btn btn-default btn-success" id="reg-signup">Sign Up</button>
+          </div>
+          <div class="modal-footer">
+            <p>Already registered? <a href="#" id="back-mymodal">Sign-in </a> Here</p>
+          </div>
+        </div>
+      </div>
+
+      <!--  REGISTER MODAL END  -->
+
 
 
     </div>

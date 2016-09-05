@@ -1,6 +1,7 @@
 var tweets = JSON.parse(data);
 var theTweets = document.getElementById('tweets');
-var following =[]
+var users = [];
+var following =[];
 var profileCard = document.getElementById('profile-card')
 var yourTweet = document.getElementById('your-tweet');
 var tweetButton = document.getElementById('tweet-button');
@@ -13,6 +14,48 @@ var signIn = document.getElementById('signin');
 var vidloop = document.getElementById('vidloop');
 var myModal = document.getElementById('my-modal');
 var logIn = document.getElementById('log-in');
+var userInput = document.getElementById('username-input');
+var userPass = document.getElementById('password-input');
+var dashLeft = document.getElementById('dashboard-left');
+var regButton = document.getElementById('register');
+var signUp = document.getElementById('reg-signup');
+var regModal = document.getElementById('reg-modal');
+var backMyModal = document.getElementById('back-mymodal');
+
+
+// clear all child elements
+function clear(target){
+	while(target.firstChild) {
+		target.removeChild(target.firstChild)
+	}
+}
+
+// TOGGLE HIDE
+
+function hideIt(element) {
+	element.classList.add('hide');
+}
+
+function showIt(element) {
+	element.classList.remove('hide');
+}
+
+// GET USERS FROM ORIGINAL DATA ARRAY
+
+function addUser(entry){
+	var user = {
+	userId: entry.id,
+	userName: entry.username,
+	name: entry.name,
+	password: entry.id + 'pass'
+	}
+	users.push(user);
+}
+
+for (var i = 0 ; i < tweets.length ; i++) {
+	addUser(tweets[i])
+}
+
 
 for ( var i = 0 ; i < tweets.length ; i++) {
 	var tweetDiv = document.createElement('div');
@@ -43,6 +86,10 @@ for ( var i = 0 ; i < tweets.length ; i++) {
 	nameSpan.classList.add('span-name');
 	usernameSpan.classList.add('span-user-name');
 	dateSpan.classList.add('span-date');
+	nameSpan.classList.add('tweet-header');
+	usernameSpan.classList.add('tweet-header');
+	dateSpan.classList.add('tweet-header');
+
 
 
 	contentDiv.textContent = tweets[i].content;
@@ -141,12 +188,7 @@ function listFollower(array) {
 	}
 }
 
-// clear all child elements
-function clear(target){
-	while(target.firstChild) {
-		target.removeChild(target.firstChild)
-	}
-}
+
 
 // DISPLAY ONLY YOUR FOLLOWERS' TWEETS
 
@@ -229,13 +271,7 @@ bird.addEventListener('click', function(){
 	followTweets.classList.add('hide')
 })
 
-function hideIt(element) {
-	element.classList.add('hide');
-}
 
-function showIt(element) {
-	element.classList.remove('hide');
-}
 
 yourTweet.addEventListener('click', function(){
 	var yourTweetDiv = document.getElementById('your-tweet-div');
@@ -252,9 +288,9 @@ tweetButton.addEventListener('click', function() {
 	var tweetCounter = document.getElementById('tweet-counter');
 		tweetCounter.textContent = tweetCount;
 	var myTweet = {}
-		myTweet.id = '695412312234234213412312545623';
-		myTweet.name = 'name';
-		myTweet.username = 'username';
+		myTweet.id = users[users.length-1].id;
+		myTweet.name = users[users.length-1].name;
+		myTweet.username = users[users.length-1].userName;
 		myTweet.date = Date();
 		myTweet.content = yourTweet.value;
 		myTweet.pic = 'dummy.png';
@@ -296,6 +332,11 @@ function buildTweets(tweet) {
 	var buildSpanDate = document.createElement('span');
 	buildSpanDate.textContent = tweet.date;
 	buildSpanName.classList.add('span-date');
+	buildSpanName.classList.add('tweet-header');
+	buildSpanDate.classList.add('tweet-header');
+	buildSpanUserName.classList.add('tweet-header');
+
+
 	buildSpanDiv.appendChild(buildSpanName);
 	buildSpanDiv.appendChild(buildSpanUserName);
 	buildSpanDiv.appendChild(buildSpanDate);
@@ -407,7 +448,7 @@ clear(followTweets);
 
 var marginY = 0;
 var destination = 0;
-var speed = 5;
+var speed = 10;
 var scroller = null;
 
 function initScroll(el) {
@@ -424,13 +465,78 @@ function initScroll(el) {
 	mainContain.style.visibility = 'visible';
 }
 
+// END SMOOTH SCROLL
+
 signIn.addEventListener('click', function(){
 	vidloop.style.display = 'none';
 	myModal.style.display = 'block';
 })
 
 window.onclick = function(event) {
-    if (event.target == myModal) {
-        myModal.style.display = "none";
+		if (event.target == myModal) {
+				myModal.style.display = "none";
     }
+}
+
+logIn.addEventListener('click', function(){
+	if (userInput.value === 'username' && userPass.value === 'password') {
+		dashLeft.style.visibility = 'visible';
+		myModal.style.display="none";
+		var yourTweetDiv = document.getElementById('your-tweet-div');
+		yourTweetDiv.style.visibility = 'visible'
+		toggleButton()
+	}
+})
+
+// TOGGLE BUTTON VISIBILITY
+
+function toggleButton(){
+	var buttons = document.getElementsByClassName('follow');
+	for (var i = 0 ; i < buttons.length ; i++) {
+		if(buttons[i].classList.contains('hide')){
+			buttons[i].classList.remove('hide');
+		} else {
+			buttons[i].classList.add('hide');
+		}
+	}
+}
+
+
+regButton.addEventListener('click', function(){
+	myModal.style.display = 'none';
+	regModal.style.display = 'block';
+});
+
+window.onclick = function(event) {
+	if (event.target == regModal) {
+		regModal.style.display = 'none';
+	}
+}
+
+backMyModal.addEventListener('click', function(){
+	myModal.style.display = 'block';
+	regModal.style.display = 'none';
+})
+
+signUp.addEventListener('click', function(){
+	regModal.style.display = 'none';
+	dashLeft.style.visibility = 'visible';
+	var yourTweetDiv = document.getElementById('your-tweet-div');
+	yourTweetDiv.style.visibility = 'visible'
+	var user = {
+	userId: Math.random() * 1312412341235425423452345,
+	userName: '@' + document.getElementById('reg-username').value,
+	name: document.getElementById('reg-name').value,
+	password: document.getElementById('reg-pass').value
+}
+	users.push(user);
+	toggleButton();
+	customProfile();
+});
+
+function customProfile(){
+	var theProfileName = document.getElementById('profile-full-name');
+	var theProfileUserName = document.getElementById('profile-user-name');
+	theProfileName.textContent = users[users.length-1].name;
+	theProfileUserName.textContent = users[users.length-1].userName;
 }
