@@ -152,12 +152,6 @@ body {
   margin-left: 100px;
 }
 
-.username {
-  font-weight: 600;
-  font-size: 18px;
-  margin-bottom: 0;
-}
-
 #profile-picture {
   height: 80px;
   border-radius: 10px;
@@ -172,19 +166,6 @@ body {
   top: -85px;
 }
 
-.profile-stat-list {
-  width: 55px;
-  display: inline-block;
-}
-
-.stat-title {
-  font-size: 12px;
-}
-
-.stat-count {
-  font-size: 18px;
-}
-
 #profile-stat-tweets {
   position: relative;
   left: -20px;
@@ -197,6 +178,25 @@ body {
 
 #profile-stats > ul {
   list-style: none;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 0;
+}
+
+.profile-stat-list {
+  width: 55px;
+  display: inline-block;
+}
+
+.stat-title {
+  font-size: 12px;
+}
+
+.stat-count {
+  font-size: 18px;
 }
 
 /*************************** DASHBOARD CENTER **********************/
@@ -252,6 +252,33 @@ body {
   top: 37%;
 }
 
+.retweet {
+  margin-left: 20px;
+  color: rgb(154,169,182);
+
+}
+
+.retweet:hover {
+  color: rgb(94,222,165);
+}
+
+.retweet-tag {
+  color: rgb(124,168,205);
+}
+
+.retweet-mini {
+  color: white;
+  background-color: rgb(21,200,111);
+  border-radius: 3px;
+  padding: 1px 2px;
+  margin-right: 10px;
+  margin-left: 55px;
+}
+
+.the-retweet {
+  margin-bottom: 10px;
+}
+
 #tweet-button {
   position: relative;
   top: 15%;
@@ -261,6 +288,8 @@ body {
   font-weight: 600;
   font-size: 16px;
 }
+
+
 
 /*********************** STYLING THE TWEETS ****************************/
 

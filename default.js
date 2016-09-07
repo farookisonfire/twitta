@@ -20,7 +20,9 @@ var regButton = document.getElementById('register');
 var signUp = document.getElementById('reg-signup');
 var regModal = document.getElementById('reg-modal');
 var backMyModal = document.getElementById('back-mymodal');
-
+var currentUserId = '';
+var currentUserName = '';
+var currentUserUserName = '';
 
 // clear all child elements
 function clear(target){
@@ -60,7 +62,7 @@ function listFollower(array) {
   appender(followers, following);
 
 	for (var i = 0 ; i < array.length ; i++) {
-		if (array[i][1] !== '695412312234234213412312545623'){
+		if (array[i][1] !== currentUserId){
 			var follower = array[i][0];
 			var followerP = document.createElement('p');
 			followerP.textContent = follower;
@@ -71,23 +73,20 @@ function listFollower(array) {
 }
 
 
-function addClass(element, classX, classY, classZ){
+function addClass(element, classX, classY, classZ, classXx, classXy){
     element.classList.add(classX);
   if (typeof(classY) !== 'undefined' ) { element.classList.add(classY); }
   if (typeof(classZ) !== 'undefined') { element.classList.add(classZ); }
+  if (typeof(classXx) !== 'undefined') { element.classList.add(classXx); }
+  if (typeof(classXy) !== 'undefined') { element.classList.add(classXy); }
   return element; }
 
-function appender(parent, firstChild, secondChild, thirdChild, fourthChild) {
+function appender(parent, firstChild, secondChild, thirdChild, fourthChild, fifthChild) {
   parent.appendChild(firstChild)
-  if (typeof(secondChild) !== 'undefined') {
-    parent.appendChild(secondChild);
-  }
-  if (typeof(thirdChild) !== 'undefined') {
-    parent.appendChild(thirdChild);
-  }
-  if (typeof(fourthChild) !== 'undefined') {
-    parent.appendChild(fourthChild);
-  }
+  if (typeof(secondChild) !== 'undefined') { parent.appendChild(secondChild); }
+  if (typeof(thirdChild) !== 'undefined') { parent.appendChild(thirdChild); }
+  if (typeof(fourthChild) !== 'undefined') { parent.appendChild(fourthChild); }
+  if (typeof(fifthChild) !== 'undefined') { parent.appendChild(fifthChild); }
   return parent;
 }
 
@@ -96,10 +95,30 @@ function addText(element, text) {
   return element
 }
 
+function setAttributes(element, attributeX, valueX, attributeY, valueY, attributeZ, valueZ, attributeXx, valueXx, attributeXy, valueXy, attributeXz, valueXz) {
+  if (attributeX !== 'undefined') { element.setAttribute(attributeX, valueX); }
+  if (attributeY !== 'undefined') { element.setAttribute(attributeY, valueY); }
+  if (attributeZ !== 'undefined') { element.setAttribute(attributeZ, valueZ); }
+  if (attributeXx !== 'undefined') { element.setAttribute(attributeXx, valueXx); }
+  if (attributeXy !== 'undefined') { element.setAttribute(attributeXy, valueXy); }
+  if (attributeXz !== 'undefined') { element.setAttribute(attributeXz, valueXz); }
+}
+
 function buildTweets(tweet) {
   var theTweet = document.createElement('div');
   addClass(theTweet,'col-md-12','panel', 'panel-default');
   theTweet.id = "tweet-div";
+  if (tweet.isRetweet) {
+    var theRetweet = document.createElement('div');
+    addClass(theRetweet, 'the-retweet');
+    var theRetweetIcon = document.createElement('i');
+    addClass(theRetweetIcon, 'fa', 'fa-retweet', 'retweet-mini')
+    var theRetweetTag = document.createElement('span');
+    addClass(theRetweetTag, 'retweet-tag');
+    addText(theRetweetTag, currentUserName + ' retweeted:');
+    appender(theRetweet, theRetweetIcon, theRetweetTag);
+    theTweet.appendChild(theRetweet);
+  }
 	var thePic = document.createElement('div');
   addClass(thePic, 'col-md-2');
 	var picture = document.createElement('img');
@@ -123,13 +142,25 @@ function buildTweets(tweet) {
   addText(theContent, tweet.content);
 	var theButton = document.createElement('button');
   addText(theButton, 'Follow');
-  addClass(theButton, 'btn', 'button', 'follow')
-	theButton.setAttribute('name', tweet.name);
-	theButton.setAttribute('id', tweet.id);
-	theButton.setAttribute('content', tweet.content);
-  appender(theTweet, thePic, tweetHeading, theContent, theButton);
+  addClass(theButton, 'btn', 'button', 'follow', tweet.id)
+  setAttributes(theButton, 'name', tweet.name, 'id', tweet.id, 'content', tweet.content);
+  var theRetweetButton = document.createElement('i');
+  addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 'retweet', 'fa-2x');
+  setAttributes(theRetweetButton, 'userId', tweet.id, 'name', tweet.name, 'userName', tweet.username, 'date', tweet.date, 'content', tweet.content, 'pic', tweet.pic);
+
+  appender(theTweet, thePic, tweetHeading, theContent, theButton, theRetweetButton);
   return theTweet
 }  // END OF BUILD FUNCTION, WHICH BUILDS TWEETS AND APPENDS
+
+// REMOVE FOLLOW OPTION FROM CURRENT USER
+function removeFollow(aUserId) {
+  for (var i = 0 ; i < tweets.length ; i++) {
+    if(tweets[i].id === currentUserId){
+      var buttons = document.getElementsByClassName(aUserId);
+      for (var j = 0 ; j < buttons.length ; j++){
+      buttons[j].classList.add('hide');
+    }
+}}}
 
 // SM0OTH SCROLL
 var marginY = 0;
@@ -163,6 +194,18 @@ function toggleButton(){
 	}
 }
 
+function toggle(aClassName){
+	var toToggle = document.getElementsByClassName(aClassName);
+	for (var i = 0 ; i < toToggle.length ; i++) {
+		if(toToggle[i].classList.contains('hide')){
+			showIt(toToggle[i])
+		} else {
+      hideIt(toToggle[i])
+		}
+	}
+}
+
+
 // CREATE ARRAY OF USERS
 for (var i = 0 ; i < tweets.length ; i++) {
 	addUser(tweets[i])
@@ -172,7 +215,8 @@ for (var i = 0 ; i < tweets.length ; i++) {
 for (var x = 0 ; x < tweets.length ; x++) {
   theTweets.appendChild(buildTweets(tweets[x]));
 }
-toggleButton()
+toggle('follow');
+toggle('retweet');
 
 
 // CHECK AN ARRAY TO SEE IF IT CONTAINS CANDIDATE
@@ -218,7 +262,7 @@ home.addEventListener('click', function(){
 	hideIt(theTweets);
 	showIt(followTweets);
 	compareTweetsToFollowing(tweets, following);
-  toggleButton()
+  toggle('follow')
 });
 
 var birdIcon = document.getElementById('logo');
@@ -226,7 +270,12 @@ birdIcon.addEventListener('click', function(){
 	hideIt(profileCard);
   showIt(theTweets)
 	hideIt(followTweets)
-	toggleButton();
+	toggle('follow');
+  clear(theTweets);
+  for (var i = 0 ; i < tweets.length ; i++){
+  appender(theTweets, buildTweets(tweets[i]));
+  }
+  removeFollow(currentUserId);
 })
 
 var yourTweet = document.getElementById('your-tweet');
@@ -254,40 +303,38 @@ tweetButton.addEventListener('click', function() {
 	var tweetCounter = document.getElementById('tweet-counter');
 		tweetCounter.textContent = tweetCount;
 	var myTweet = {
-		id : users[users.length-1].userId,
-		name : users[users.length-1].name,
-		username : users[users.length-1].userName,
+		id : currentUserId,
+		name : currentUserName,
+		username : currentUserUserName,
 		date : Date(),
 		content : yourTweet.value,
 		pic : 'dummy.png'
     }
-
+  yourTweet.value = '';
 	tweets.unshift(myTweet);
 	following.unshift([myTweet.name, myTweet.id, myTweet.content]);
 	clear(theTweets);
 	clear(followTweets);
 	for (var i = 0 ; i < tweets.length ; i++) {
-		buildTweets(tweets[i]);
     appender(theTweets, buildTweets(tweets[i]));
 	}
 
 	compareTweetsToFollowing(tweets, following);
+  removeFollow(currentUserId);
 }); //end of event listener
 
 
 var seeMyTweets = document.getElementById('tweet-count-link');
 seeMyTweets.addEventListener('click', function(){
 clear(followTweets);
+clear(theTweets);
 	for (var i = 0 ; i < tweets.length ; i++) {
-		if (tweets[i].id === userId) {
-			buildFollowTweets(tweets[i]);
+		if (tweets[i].id === currentUserId) {
+			appender(followTweets, buildTweets(tweets[i]));
+      appender(theTweets, buildTweets(tweets[i]));
 		}
 	}
-
-	var followButton = document.getElementsByClassName('follow');
-	for (i = 0 ; i < followButton.length ; i++) {
-		hideIt(followButton[i]);
-	}
+  toggle('follow');
 })
 
 signIn.addEventListener('click', function(){
@@ -295,11 +342,11 @@ signIn.addEventListener('click', function(){
 	myModal.style.display = 'block';
 })
 
-window.onclick = function(event) {
+window.addEventListener('click', function(event) {
 		if (event.target == myModal) {
 				myModal.style.display = "none";
     }
-}
+});
 
 logIn.addEventListener('click', function(){
 	if (userInput.value === 'username' && userPass.value === 'password') {
@@ -307,7 +354,7 @@ logIn.addEventListener('click', function(){
 		myModal.style.display="none";
 		var yourTweetDiv = document.getElementById('your-tweet-div');
 		yourTweetDiv.style.visibility = 'visible'
-		toggleButton()
+		toggle('follow');
 	}
 })
 
@@ -316,11 +363,11 @@ regButton.addEventListener('click', function(){
 	regModal.style.display = 'block';
 });
 
-window.onclick = function(event) {
-	if (event.target == regModal) {
-		regModal.style.display = 'none';
-	}
-}
+// window.addEventListener('click', function(event) {
+// 	if (event.target == regModal) {
+// 		regModal.style.display = 'none';
+// 	}
+// });
 
 backMyModal.addEventListener('click', function(){
 	myModal.style.display = 'block';
@@ -337,9 +384,13 @@ signUp.addEventListener('click', function(){
 	userName: '@' + document.getElementById('reg-username').value,
 	name: document.getElementById('reg-name').value,
 	password: document.getElementById('reg-pass').value
-}
+  }
+  currentUserId = user.userId;
+  currentUserName = user.name;
+  currentUserUserName = user.userName;
 	users.push(user);
-	toggleButton();
+	toggle('follow');
+  toggle('retweet');
 	customProfile();
 });
 
@@ -349,3 +400,34 @@ function customProfile() {
 	theProfileName.textContent = users[users.length-1].name;
 	theProfileUserName.textContent = users[users.length-1].userName;
 }
+
+
+
+
+
+
+// RETWEETING
+
+function getTweet(target) {
+  var newTweet = {
+    id : target.getAttribute('userId'),
+    name : target.getAttribute('name'),
+    userName : target.getAttribute('userName'),
+    date : target.getAttribute('date'),
+    content: target.getAttribute('content'),
+    pic: target.getAttribute('pic'),
+    isRetweet: true
+  }
+  return newTweet;
+}
+
+document.body.addEventListener('click', function(event) {
+  if (event.target.className.indexOf('retweet') !== -1) {
+    var originalTweet = event.target;
+    tweets.unshift(getTweet(originalTweet));
+    clear(theTweets);
+    for (var i = 0 ; i < tweets.length ; i++){
+      appender(theTweets, buildTweets(tweets[i]));
+    }
+  }
+}); //end of event listener
