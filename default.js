@@ -340,7 +340,7 @@ clear(theTweets);
 		}
 	}
   toggle('follow');
-  toggle('retweet');
+  toggle('re-tweeted');
 })
 
 signIn.addEventListener('click', function(){
@@ -417,14 +417,14 @@ function getTweet(target) {
     date : target.getAttribute('date'),
     content: target.getAttribute('content'),
     pic: target.getAttribute('pic'),
-    tweetid: Math.random() * 23887788998812312,
+    tweetid: (Math.random() * 23887788998812312).toString(),
     isRetweet: true
   }
   return newTweet;
 }
 
 document.body.addEventListener('click', function(event) {
-  if (event.target.className.indexOf('retweet') !== -1 && event.target.className.indexOf('re-tweet') === -1) {
+  if (event.target.className.indexOf('retweet') !== -1 && event.target.className.indexOf('re-tweeted') === -1) {
     var targetTweetId = event.target.getAttribute('tweetid');
     tweetCount += 1;
     addText(tweetCounter, tweetCount);
@@ -434,8 +434,24 @@ document.body.addEventListener('click', function(event) {
     for (var i = 0 ; i < tweets.length ; i++){
       appender(theTweets, buildTweets(tweets[i]));
     }
-    var targetTweet = document.querySelectorAll('[tweetid = ' + targetTweetId +']')[0];
+    var targetTweet = document.querySelectorAll('[tweetid = "' + targetTweetId +'"]')[1];
     targetTweet.classList.remove('retweet');
     targetTweet.classList.add('re-tweeted');
   }
+  else if(event.target.className.indexOf('re-tweeted') !== -1) {
+    tweetCount -= 1;
+    addText(tweetCounter, tweetCount);
+    var retweetId = event.target.getAttribute('tweetid');
+    // console.log('the tweetid is ' + retweetId);
+    function findTweet(tweet) {
+      return tweet.tweetid === retweetId;
+    }
+    // console.log(tweets.findIndex(findTweet));
+    var tweetIndex = tweets.findIndex(findTweet);
+    tweets.splice(tweetIndex, 1);
+    clear(theTweets);
+    for (var j = 0 ; j < tweets.length ; j++){
+      appender(theTweets, buildTweets(tweets[j]));
+  }
+}
 }); //end of event listener
