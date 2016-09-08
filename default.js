@@ -23,6 +23,9 @@ var backMyModal = document.getElementById('back-mymodal');
 var currentUserId = '';
 var currentUserName = '';
 var currentUserUserName = '';
+var tweetCounter = document.getElementById('tweet-counter');
+var tweetCount = 0;
+
 
 // clear all child elements
 function clear(target){
@@ -95,18 +98,19 @@ function addText(element, text) {
   return element
 }
 
-function setAttributes(element, attributeX, valueX, attributeY, valueY, attributeZ, valueZ, attributeXx, valueXx, attributeXy, valueXy, attributeXz, valueXz) {
+function setAttributes(element, attributeX, valueX, attributeY, valueY, attributeZ, valueZ, attributeXx, valueXx, attributeXy, valueXy, attributeXz, valueXz, attributeYx, valueYx) {
   if (attributeX !== 'undefined') { element.setAttribute(attributeX, valueX); }
   if (attributeY !== 'undefined') { element.setAttribute(attributeY, valueY); }
   if (attributeZ !== 'undefined') { element.setAttribute(attributeZ, valueZ); }
   if (attributeXx !== 'undefined') { element.setAttribute(attributeXx, valueXx); }
   if (attributeXy !== 'undefined') { element.setAttribute(attributeXy, valueXy); }
   if (attributeXz !== 'undefined') { element.setAttribute(attributeXz, valueXz); }
+  if (attributeYx !== 'undefined') { element.setAttribute(attributeYx, valueYx); }
 }
 
 function buildTweets(tweet) {
   var theTweet = document.createElement('div');
-  addClass(theTweet,'col-md-12','panel', 'panel-default');
+  addClass(theTweet,'col-xs-12','panel', 'panel-default', 'tweet-panel');
   theTweet.id = "tweet-div";
   if (tweet.isRetweet) {
     var theRetweet = document.createElement('div');
@@ -120,13 +124,13 @@ function buildTweets(tweet) {
     theTweet.appendChild(theRetweet);
   }
 	var thePic = document.createElement('div');
-  addClass(thePic, 'col-md-2');
+  addClass(thePic, 'col-xs-2');
 	var picture = document.createElement('img');
 	picture.src = tweet.pic;
   addClass(picture, 'wall-pic');
   appender(thePic, picture);
   var tweetHeading = document.createElement('div');
-  addClass(tweetHeading, 'col-md-10');
+  addClass(tweetHeading, 'col-xs-10');
   var name = document.createElement('span');
   addText(name, tweet.name);
   addClass(name, 'span-name', 'tweet-header')
@@ -138,15 +142,17 @@ function buildTweets(tweet) {
   addClass(date, 'span-date', 'tweet-header');
   appender(tweetHeading, name, userName, date);
 	var theContent = document.createElement('div');
-  addClass(theContent, 'content', 'panel-body', 'col-md-10');
+  addClass(theContent, 'content', 'panel-body', 'col-xs-10');
   addText(theContent, tweet.content);
 	var theButton = document.createElement('button');
   addText(theButton, 'Follow');
   addClass(theButton, 'btn', 'button', 'follow', tweet.id)
-  setAttributes(theButton, 'name', tweet.name, 'id', tweet.id, 'content', tweet.content);
+  setAttributes(theButton, 'name', tweet.name, 'id', tweet.id, 'content', tweet.content, 'tweetId', tweet.tweetid);
   var theRetweetButton = document.createElement('i');
-  addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 'retweet', 'fa-2x');
-  setAttributes(theRetweetButton, 'userId', tweet.id, 'name', tweet.name, 'userName', tweet.username, 'date', tweet.date, 'content', tweet.content, 'pic', tweet.pic);
+  if (tweet.isRetweet) {
+    addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 're-tweeted', 'fa-lg'); } else { addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 'retweet', 'fa-lg'); }
+  // addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 'retweet', 'fa-lg');
+  setAttributes(theRetweetButton, 'userId', tweet.id, 'name', tweet.name, 'userName', tweet.username, 'date', tweet.date, 'content', tweet.content, 'pic', tweet.pic, 'tweetId', tweet.tweetid);
 
   appender(theTweet, thePic, tweetHeading, theContent, theButton, theRetweetButton);
   return theTweet
@@ -267,9 +273,8 @@ home.addEventListener('click', function(){
 
 var birdIcon = document.getElementById('logo');
 birdIcon.addEventListener('click', function(){
-	hideIt(profileCard);
-  showIt(theTweets)
-	hideIt(followTweets)
+  showIt(theTweets);
+	hideIt(followTweets);
 	toggle('follow');
   clear(theTweets);
   for (var i = 0 ; i < tweets.length ; i++){
@@ -300,15 +305,15 @@ function compareTweetsToFollowing(theCollection, theFollowing) {
 
 tweetButton.addEventListener('click', function() {
 	tweetCount += 1;
-	var tweetCounter = document.getElementById('tweet-counter');
-		tweetCounter.textContent = tweetCount;
+	tweetCounter.textContent = tweetCount;
 	var myTweet = {
 		id : currentUserId,
 		name : currentUserName,
 		username : currentUserUserName,
 		date : Date(),
 		content : yourTweet.value,
-		pic : 'dummy.png'
+		pic : 'dummy.png',
+    tweetid: Math.random() * 998877889988776633
     }
   yourTweet.value = '';
 	tweets.unshift(myTweet);
@@ -329,12 +334,13 @@ seeMyTweets.addEventListener('click', function(){
 clear(followTweets);
 clear(theTweets);
 	for (var i = 0 ; i < tweets.length ; i++) {
-		if (tweets[i].id === currentUserId) {
+		if (tweets[i].id === currentUserId || tweets[i].isRetweet) {
 			appender(followTweets, buildTweets(tweets[i]));
       appender(theTweets, buildTweets(tweets[i]));
 		}
 	}
   toggle('follow');
+  toggle('retweet');
 })
 
 signIn.addEventListener('click', function(){
@@ -401,33 +407,35 @@ function customProfile() {
 	theProfileUserName.textContent = users[users.length-1].userName;
 }
 
-
-
-
-
-
 // RETWEETING
 
 function getTweet(target) {
   var newTweet = {
     id : target.getAttribute('userId'),
     name : target.getAttribute('name'),
-    userName : target.getAttribute('userName'),
+    username : target.getAttribute('userName'),
     date : target.getAttribute('date'),
     content: target.getAttribute('content'),
     pic: target.getAttribute('pic'),
+    tweetid: Math.random() * 23887788998812312,
     isRetweet: true
   }
   return newTweet;
 }
 
 document.body.addEventListener('click', function(event) {
-  if (event.target.className.indexOf('retweet') !== -1) {
+  if (event.target.className.indexOf('retweet') !== -1 && event.target.className.indexOf('re-tweet') === -1) {
+    var targetTweetId = event.target.getAttribute('tweetid');
+    tweetCount += 1;
+    addText(tweetCounter, tweetCount);
     var originalTweet = event.target;
     tweets.unshift(getTweet(originalTweet));
     clear(theTweets);
     for (var i = 0 ; i < tweets.length ; i++){
       appender(theTweets, buildTweets(tweets[i]));
     }
+    var targetTweet = document.querySelectorAll('[tweetid = ' + targetTweetId +']')[0];
+    targetTweet.classList.remove('retweet');
+    targetTweet.classList.add('re-tweeted');
   }
 }); //end of event listener

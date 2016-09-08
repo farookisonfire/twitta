@@ -210,6 +210,11 @@ body {
   visibility: hidden;
 }
 
+.tweet-panel:hover {
+  background-color: rgb(242,246,249);
+  cursor: pointer;
+}
+
 .your-tweet-profile-pic {
   height: 40px;
   float: left;
@@ -255,11 +260,17 @@ body {
 .retweet {
   margin-left: 20px;
   color: rgb(154,169,182);
-
+  height: 80%;
 }
 
 .retweet:hover {
   color: rgb(94,222,165);
+}
+
+.re-tweeted {
+  color: rgb(94,222,165);
+  margin-left: 20px;
+  height: 80%;
 }
 
 .retweet-tag {
