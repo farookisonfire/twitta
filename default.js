@@ -98,7 +98,7 @@ function addText(element, text) {
   return element
 }
 
-function setAttributes(element, attributeX, valueX, attributeY, valueY, attributeZ, valueZ, attributeXx, valueXx, attributeXy, valueXy, attributeXz, valueXz, attributeYx, valueYx) {
+function setAttributes(element, attributeX, valueX, attributeY, valueY, attributeZ, valueZ, attributeXx, valueXx, attributeXy, valueXy, attributeXz, valueXz, attributeYx, valueYx, attributeYy, valueYy) {
   if (attributeX !== 'undefined') { element.setAttribute(attributeX, valueX); }
   if (attributeY !== 'undefined') { element.setAttribute(attributeY, valueY); }
   if (attributeZ !== 'undefined') { element.setAttribute(attributeZ, valueZ); }
@@ -106,6 +106,7 @@ function setAttributes(element, attributeX, valueX, attributeY, valueY, attribut
   if (attributeXy !== 'undefined') { element.setAttribute(attributeXy, valueXy); }
   if (attributeXz !== 'undefined') { element.setAttribute(attributeXz, valueXz); }
   if (attributeYx !== 'undefined') { element.setAttribute(attributeYx, valueYx); }
+  if (attributeYy !== 'undefined') { element.setAttribute(attributeYy, valueYy); }
 }
 
 function buildTweets(tweet) {
@@ -152,7 +153,7 @@ function buildTweets(tweet) {
   if (tweet.isRetweet) {
     addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 're-tweeted', 'fa-lg'); } else { addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 'retweet', 'fa-lg'); }
   // addClass(theRetweetButton, 'fa' ,'fa-retweet', tweet.id, 'retweet', 'fa-lg');
-  setAttributes(theRetweetButton, 'userId', tweet.id, 'name', tweet.name, 'userName', tweet.username, 'date', tweet.date, 'content', tweet.content, 'pic', tweet.pic, 'tweetId', tweet.tweetid);
+  setAttributes(theRetweetButton, 'userId', tweet.id, 'name', tweet.name, 'userName', tweet.username, 'date', tweet.date, 'content', tweet.content, 'pic', tweet.pic, 'tweetId', tweet.tweetid, 'isRetweet', tweet.isRetweet);
 
   appender(theTweet, thePic, tweetHeading, theContent, theButton, theRetweetButton);
   return theTweet
@@ -418,9 +419,18 @@ function getTweet(target) {
     content: target.getAttribute('content'),
     pic: target.getAttribute('pic'),
     tweetid: (Math.random() * 23887788998812312).toString(),
+    retweetTag: target.getAttribute('tweetid'),
     isRetweet: true
   }
   return newTweet;
+}
+
+
+function getIndex(tag, theId) {
+  function checkTweets(tweet) {
+    return tweet[tag] === theId;
+  }
+  return tweets.findIndex(checkTweets)
 }
 
 document.body.addEventListener('click', function(event) {
@@ -441,17 +451,17 @@ document.body.addEventListener('click', function(event) {
   else if(event.target.className.indexOf('re-tweeted') !== -1) {
     tweetCount -= 1;
     addText(tweetCounter, tweetCount);
-    var retweetId = event.target.getAttribute('tweetid');
-    // console.log('the tweetid is ' + retweetId);
-    function findTweet(tweet) {
-      return tweet.tweetid === retweetId;
+    var tweetId = event.target.getAttribute('tweetid');
+
+    if (event.target.getAttribute('isretweet') === 'undefined'){
+      tweets.splice(getIndex('retweetTag', tweetId), 1);
     }
-    // console.log(tweets.findIndex(findTweet));
-    var tweetIndex = tweets.findIndex(findTweet);
-    tweets.splice(tweetIndex, 1);
+    else if (event.target.getAttribute('isretweet')==='true'){
+      tweets.splice(getIndex('tweetid', tweetId), 1);
+    }
     clear(theTweets);
     for (var j = 0 ; j < tweets.length ; j++){
       appender(theTweets, buildTweets(tweets[j]));
   }
-}
+  }
 }); //end of event listener
