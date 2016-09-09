@@ -190,16 +190,16 @@ function initScroll(el) {
 }   // END SMOOTH SCROLL
 
 // TOGGLE BUTTON VISIBILITY
-function toggleButton(){
-	var buttons = document.getElementsByClassName('follow');
-	for (var i = 0 ; i < buttons.length ; i++) {
-		if(buttons[i].classList.contains('hide')){
-			buttons[i].classList.remove('hide');
-		} else {
-			buttons[i].classList.add('hide');
-		}
-	}
-}
+// function toggleButton(){
+// 	var buttons = document.getElementsByClassName('follow');
+// 	for (var i = 0 ; i < buttons.length ; i++) {
+// 		if(buttons[i].classList.contains('hide')){
+// 			buttons[i].classList.remove('hide');
+// 		} else {
+// 			buttons[i].classList.add('hide');
+// 		}
+// 	}
+// }
 
 function toggle(aClassName){
 	var toToggle = document.getElementsByClassName(aClassName);
@@ -382,24 +382,29 @@ backMyModal.addEventListener('click', function(){
 })
 
 signUp.addEventListener('click', function(){
-	regModal.style.display = 'none';
+  regModal.style.display = 'none';
 	dashLeft.style.visibility = 'visible';
 	var yourTweetDiv = document.getElementById('your-tweet-div');
 	yourTweetDiv.style.visibility = 'visible'
-	var user = {
-	userId: Math.random() * 1312412341235425423452345,
-	userName: '@' + document.getElementById('reg-username').value,
-	name: document.getElementById('reg-name').value,
-	password: document.getElementById('reg-pass').value
+	createUser();
+	customProfile();
+  toggle('follow');
+  toggle('retweet');
+  toggle('navigation');
+});
+
+function createUser() {
+  var user = {
+    userId: Math.floor(Math.random() * 1312412341235425423452345),
+    userName: '@' + document.getElementById('reg-username').value,
+    name: document.getElementById('reg-name').value,
+    password: document.getElementById('reg-pass').value
   }
   currentUserId = user.userId;
   currentUserName = user.name;
   currentUserUserName = user.userName;
-	users.push(user);
-	toggle('follow');
-  toggle('retweet');
-	customProfile();
-});
+  users.push(user);
+}
 
 function customProfile() {
 	var theProfileName = document.getElementById('profile-full-name');
@@ -425,6 +430,7 @@ function getTweet(target) {
   return newTweet;
 }
 
+// GET THE INDEX OF THE ARRAY VALUE WHOSE PROPERTY VALUE MATCHES THE ID.
 
 function getIndex(tag, theId) {
   function checkTweets(tweet) {
@@ -465,3 +471,38 @@ document.body.addEventListener('click', function(event) {
   }
   }
 }); //end of event listener
+
+
+// FILLING THE CARD CONTAINER
+
+var increment = 1;
+var theContainer = document.getElementById('card-container');
+function buildCards(tweet) {
+var theCard = document.createElement('div');
+addClass(theCard, 'card', 'col-sm-4', 'card-outline-primary');
+var theCardBlock = document.createElement('div');
+addClass(theCardBlock, 'card-block');
+var theCardTitle = document.createElement('h4');
+addClass(theCardTitle, 'card-title');
+addText(theCardTitle, tweet.name);
+var theCardSubTitle = document.createElement('h6');
+addClass(theCardSubTitle, 'card-subtitle', 'text-muted');
+addText(theCardSubTitle, tweet.username);
+appender(theCardBlock, theCardTitle, theCardSubTitle);
+var theImage = document.createElement('img');
+addClass(theImage, 'img-responsive');
+theImage.src = 'panelpics/pic' + increment +'.jpg';
+increment += 1
+var theCardBlockTwo = document.createElement('div');
+addClass(theCardBlockTwo, 'card-block','card-block-two');
+var theParagraph = document.createElement('p');
+addText(theParagraph, tweet.content);
+appender(theCardBlockTwo, theParagraph);
+appender(theCard, theCardBlock, theImage, theCardBlockTwo);
+return theCard;
+}
+
+for (var i = 0 ; i < 21 ; i++) {
+
+    appender(theContainer, buildCards(tweets[i]));
+}

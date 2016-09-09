@@ -69,6 +69,17 @@ body {
   font-weight: 200;
 }
 
+/**************************** CARD BLOCK *************************/
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-block-two {
+  height: 200px;
+  overflow: hidden;
+}
+
 /**************************** MODAL BEGIN *************************/
 
 .modal {
