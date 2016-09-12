@@ -174,6 +174,7 @@ var marginY = 0;
 var destination = 0;
 var speed = 10;
 var scroller = null;
+var cardContainer = document.getElementById('card-container');
 
 function initScroll(el) {
 	destination = document.getElementById(el).offsetTop;
@@ -186,7 +187,8 @@ function initScroll(el) {
 	}
 	window.scroll(0, marginY);
 	topbar.style.display = "block";
-	mainContain.style.visibility = 'visible';
+	cardContainer.style.visibility = 'visible';
+	// mainContain.style.visibility = 'visible';
 }   // END SMOOTH SCROLL
 
 // TOGGLE BUTTON VISIBILITY
@@ -479,7 +481,7 @@ var increment = 1;
 var theContainer = document.getElementById('card-container');
 function buildCards(tweet) {
 var theCard = document.createElement('div');
-addClass(theCard, 'card', 'col-sm-4', 'card-outline-primary');
+addClass(theCard, 'card', 'col-sm-4', 'col-md-3', 'card-outline-primary');
 var theCardBlock = document.createElement('div');
 addClass(theCardBlock, 'card-block');
 var theCardTitle = document.createElement('h4');
@@ -503,6 +505,5 @@ return theCard;
 }
 
 for (var i = 0 ; i < 21 ; i++) {
-
     appender(theContainer, buildCards(tweets[i]));
 }

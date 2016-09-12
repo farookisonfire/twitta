@@ -73,6 +73,7 @@ body {
 
 .card {
   margin-bottom: 20px;
+  /*border: 1px solid grey;*/
 }
 
 .card-block-two {
@@ -141,6 +142,9 @@ body {
   visibility: hidden;
 }
 
+.card-container {
+  visibility: hidden;
+}
 
 
 /*************************** DASHBOARD LEFT **********************/
