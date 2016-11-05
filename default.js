@@ -349,6 +349,8 @@ clear(theTweets);
 signIn.addEventListener('click', function(){
 	vidloop.style.display = 'none';
 	myModal.style.display = 'block';
+	mainContain.style.visibility = 'visible';
+
 })
 
 window.addEventListener('click', function(event) {
@@ -370,6 +372,7 @@ logIn.addEventListener('click', function(){
 regButton.addEventListener('click', function(){
 	myModal.style.display = 'none';
 	regModal.style.display = 'block';
+	theContainer.style.display = 'none'
 });
 
 // window.addEventListener('click', function(event) {
